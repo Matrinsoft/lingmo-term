@@ -1,0 +1,19 @@
+Source: lingmo-term
+Section: admin
+Priority: optional
+Maintainer: Lingmo OS Team <team@lingmo.org>
+Build-Depends:
+    debhelper-compat (=13),
+    git,
+    just (>= 1.13.0),
+    pkg-config,
+    rust-all,
+    libxkbcommon-dev,
+Standards-Version: 4.6.2
+Homepage: https://github.com/Matrinsoft/lingmo-term
+
+Package: lingmo-term
+Architecture: amd64 arm64
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Provides: x-terminal-emulator
+Description: COSMIC Terminal
