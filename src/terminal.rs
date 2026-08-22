@@ -16,7 +16,7 @@ use alacritty_terminal::{
     tty::{self, Options},
     vte::ansi::{Color, CursorShape, NamedColor, Rgb},
 };
-use lingmo::{
+use cosmic::{
     iced::{advanced::graphics::text::font_system, mouse::ScrollDelta},
     widget::{pane_grid, segmented_button},
 };
@@ -163,7 +163,7 @@ impl TerminalPaneGrid {
     pub fn new(model: TabModel) -> Self {
         let (panes, pane) = pane_grid::State::new(model);
         let mut terminal_ids = HashMap::new();
-        terminal_ids.insert(pane, lingmo::widget::Id::unique());
+        terminal_ids.insert(pane, cosmic::widget::Id::unique());
 
         Self {
             panes,
@@ -1023,8 +1023,8 @@ impl Terminal {
 
     pub fn report_mouse(
         &mut self,
-        event: lingmo::iced::Event,
-        modifiers: &lingmo::iced::keyboard::Modifiers,
+        event: cosmic::iced::Event,
+        modifiers: &cosmic::iced::keyboard::Modifiers,
         x: u32,
         y: u32,
     ) {
@@ -1052,7 +1052,7 @@ impl Terminal {
     pub fn scroll_mouse(
         &mut self,
         delta: ScrollDelta,
-        modifiers: &lingmo::iced::keyboard::Modifiers,
+        modifiers: &cosmic::iced::keyboard::Modifiers,
         x: u32,
         y: u32,
     ) {

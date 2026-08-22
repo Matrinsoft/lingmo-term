@@ -7,7 +7,7 @@ use alacritty_terminal::{
     term::{TermMode, cell::Flags},
     vte::ansi::{CursorShape, NamedColor},
 };
-use lingmo::{
+use cosmic::{
     Renderer,
     cosmic_theme::palette::{WithAlpha, blend::Compose},
     iced::core::{
@@ -34,7 +34,7 @@ use lingmo::{
     },
     theme::Theme,
 };
-use lingmo::{iced::core::SmolStr, widget::menu::key_bind::KeyBind};
+use cosmic::{iced::core::SmolStr, widget::menu::key_bind::KeyBind};
 use cosmic_text::LayoutGlyph;
 use indexmap::IndexSet;
 use std::{
@@ -294,7 +294,7 @@ where
     TerminalBox::new(terminal, key_binds)
 }
 
-impl<'a, Message> Widget<Message, lingmo::Theme, Renderer> for TerminalBox<'a, Message>
+impl<'a, Message> Widget<Message, cosmic::Theme, Renderer> for TerminalBox<'a, Message>
 where
     Message: Clone,
 {
@@ -903,12 +903,12 @@ where
         let is_mouse_mode = terminal.term.lock().mode().intersects(TermMode::MOUSE_MODE);
         match event {
             Event::Window(event) => match event {
-                lingmo::iced::window::Event::Focused => {
+                cosmic::iced::window::Event::Focused => {
                     if let Some(on_window_focused) = &self.on_window_focused {
                         shell.publish(on_window_focused());
                     }
                 }
-                lingmo::iced::window::Event::RedrawRequested(_) => {
+                cosmic::iced::window::Event::RedrawRequested(_) => {
                     if is_mouse_mode {
                         state.autoscroll.stop();
                     } else {
@@ -931,7 +931,7 @@ where
                     }
                     shell.request_input_method(&self.input_method(state, layout, &terminal));
                 }
-                lingmo::iced::window::Event::Unfocused => {
+                cosmic::iced::window::Event::Unfocused => {
                     state.is_focused = false;
                     state.autoscroll.stop();
                     if let Some(on_window_unfocused) = &self.on_window_unfocused {
@@ -1375,7 +1375,7 @@ where
                                             None,
                                         );
                                         let link = get_hyperlink(&terminal, location);
-                                        let abs = lingmo::iced::Point::new(
+                                        let abs = cosmic::iced::Point::new(
                                             layout.bounds().x + p.x,
                                             layout.bounds().y + p.y,
                                         );
@@ -1765,7 +1765,7 @@ fn accumulate_wheel_lines(y: f32, accumulator: f32) -> (i32, f32) {
     (lines, total - lines as f32)
 }
 
-impl<'a, Message> From<TerminalBox<'a, Message>> for Element<'a, Message, lingmo::Theme, Renderer>
+impl<'a, Message> From<TerminalBox<'a, Message>> for Element<'a, Message, cosmic::Theme, Renderer>
 where
     Message: Clone + 'a,
 {

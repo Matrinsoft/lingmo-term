@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-only
 
-use lingmo::widget::menu::key_bind::{KeyBind, Modifier};
-use lingmo::{
+use cosmic::widget::menu::key_bind::{KeyBind, Modifier};
+use cosmic::{
     iced::core::keyboard::key::Named,
     iced::keyboard::{Key, Modifiers},
 };

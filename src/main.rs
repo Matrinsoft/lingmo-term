@@ -2,14 +2,14 @@
 // SPDX-License-Identifier: GPL-3.0-only
 
 use alacritty_terminal::{event::Event as TermEvent, term, term::color::Colors as TermColors, tty};
-use lingmo::iced::clipboard::dnd::DndAction;
-use lingmo::iced::core::keyboard::key::Named;
-use lingmo::iced::keyboard::key::Physical;
-use lingmo::widget::menu::action::MenuAction;
-use lingmo::widget::menu::key_bind::KeyBind;
-use lingmo::widget::pane_grid::Pane;
-use lingmo::widget::segmented_button::ReorderEvent;
-use lingmo::{
+use cosmic::iced::clipboard::dnd::DndAction;
+use cosmic::iced::core::keyboard::key::Named;
+use cosmic::iced::keyboard::key::Physical;
+use cosmic::widget::menu::action::MenuAction;
+use cosmic::widget::menu::key_bind::KeyBind;
+use cosmic::widget::pane_grid::Pane;
+use cosmic::widget::segmented_button::ReorderEvent;
+use cosmic::{
     Application, ApplicationExt, Element, action,
     app::{Core, Settings, Task, context_drawer},
     cosmic_config::{self, ConfigSet, CosmicConfigEntry},
@@ -26,7 +26,7 @@ use lingmo::{
     style,
     widget::{self, DndDestination, PaneGrid, about::About, button, pane_grid, segmented_button},
 };
-use lingmo::{Apply, surface};
+use cosmic::{Apply, surface};
 use cosmic_files::dialog::{Dialog, DialogKind, DialogMessage, DialogResult, DialogSettings};
 use cosmic_text::{Family, Stretch, Weight, fontdb::FaceInfo};
 use localize::LANGUAGE_SORTER;
@@ -212,7 +212,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     };
 
     // Run the cosmic app
-    lingmo::app::run::<App>(settings, flags)?;
+    cosmic::app::run::<App>(settings, flags)?;
 
     Ok(())
 }
@@ -532,7 +532,7 @@ pub struct App {
         segmented_button::Entity,
         Option<String>,
         widget::Id,
-        lingmo::iced::Point,
+        cosmic::iced::Point,
     )>,
     #[cfg(feature = "password_manager")]
     password_mgr: password_manager::PasswordManager,
@@ -703,7 +703,7 @@ impl App {
         self.core.window.show_headerbar = self.config.show_headerbar;
 
         // Update application theme
-        lingmo::command::set_theme(theme)
+        cosmic::command::set_theme(theme)
     }
 
     fn update_render_active_pane_zoom(&mut self, zoom_message: Message) -> Task<Message> {
@@ -2244,7 +2244,7 @@ impl Application for App {
             }
             Message::ToggleFullscreen => {
                 if let Some(window_id) = self.core.main_window_id() {
-                    return lingmo::command::toggle_maximize(window_id);
+                    return cosmic::command::toggle_maximize(window_id);
                 }
             }
             Message::CopyPrimary(entity_opt) => {
@@ -2365,7 +2365,7 @@ impl Application for App {
                 if let Ok(value) = shlex::try_join(data.paths.iter().filter_map(|p| p.to_str())) {
                     return Task::batch([
                         self.update_focus(),
-                        lingmo::task::message(action::app(Message::PasteValue(
+                        cosmic::task::message(action::app(Message::PasteValue(
                             Some(entity),
                             value,
                         ))),
@@ -2889,8 +2889,8 @@ impl Application for App {
                 if let Some((_popup_id, _, _, _, _, _)) = self.context_menu_popup.take() {
                     #[cfg(feature = "wayland")]
                     if is_wayland() {
-                        tasks.push(lingmo::task::message(Message::Surface(
-                            lingmo::surface::action::destroy_popup(_popup_id),
+                        tasks.push(cosmic::task::message(Message::Surface(
+                            cosmic::surface::action::destroy_popup(_popup_id),
                         )));
                     }
                 }
@@ -2913,7 +2913,7 @@ impl Application for App {
                     }
                 }
                 tasks.push(self.update(action.message(Some(entity))));
-                return lingmo::Task::batch(tasks);
+                return cosmic::Task::batch(tasks);
             }
             Message::TabContextMenu(pane, menu_state) => {
                 #[allow(unused_mut)]
@@ -2923,8 +2923,8 @@ impl Application for App {
                 if let Some((_popup_id, _, _, _, _, _)) = self.context_menu_popup.take() {
                     #[cfg(feature = "wayland")]
                     if is_wayland() {
-                        tasks.push(lingmo::task::message(Message::Surface(
-                            lingmo::surface::action::destroy_popup(_popup_id),
+                        tasks.push(cosmic::task::message(Message::Surface(
+                            cosmic::surface::action::destroy_popup(_popup_id),
                         )));
                     }
                 }
@@ -2967,19 +2967,19 @@ impl Application for App {
                                 let pos_x = _position.x as i32;
                                 let pos_y = _position.y as i32;
 
-                                tasks.push(lingmo::task::message(Message::Surface(
-                                    lingmo::surface::action::app_popup(
+                                tasks.push(cosmic::task::message(Message::Surface(
+                                    cosmic::surface::action::app_popup(
                                            |_| Default::default(),
                                         move |_app: &mut Self| {
-                                        use lingmo::cctk::wayland_protocols::xdg::shell::client::xdg_positioner::{Anchor, Gravity};
-                                        use lingmo::iced::runtime::platform_specific::wayland::popup::{SctkPopupSettings, SctkPositioner};
+                                        use cosmic::cctk::wayland_protocols::xdg::shell::client::xdg_positioner::{Anchor, Gravity};
+                                        use cosmic::iced::runtime::platform_specific::wayland::popup::{SctkPopupSettings, SctkPositioner};
 
                                         SctkPopupSettings {
                                             parent: main_window,
                                             id: popup_id,
                                             positioner: SctkPositioner {
                                                 size: None,
-                                                anchor_rect: lingmo::iced::Rectangle {
+                                                anchor_rect: cosmic::iced::Rectangle {
                                                     x: pos_x,
                                                     y: pos_y,
                                                     width: 1,
@@ -3003,7 +3003,7 @@ impl Application for App {
                     self.pane_model.set_focus(pane);
                 }
 
-                return lingmo::Task::batch(tasks);
+                return cosmic::Task::batch(tasks);
             }
             Message::TabNew => {
                 return self.create_and_focus_new_terminal(
@@ -3308,8 +3308,8 @@ impl Application for App {
                 }
             }
             Message::Surface(a) => {
-                return lingmo::task::message(lingmo::Action::Cosmic(
-                    lingmo::app::Action::Surface(a),
+                return cosmic::task::message(cosmic::Action::Cosmic(
+                    cosmic::app::Action::Surface(a),
                 ));
             }
             Message::ReorderTab(
@@ -3475,7 +3475,7 @@ impl Application for App {
                     )
                     .class(style::Container::Custom(Box::new(|theme| {
                         let cosmic = theme.cosmic();
-                        lingmo::iced::widget::container::Style {
+                        cosmic::iced::widget::container::Style {
                             icon_color: Some(Color::from(cosmic.background(theme.transparent).on)),
                             text_color: Some(Color::from(cosmic.background(theme.transparent).on)),
                             background: Some(iced::Background::Color(
@@ -3525,7 +3525,7 @@ impl Application for App {
                 // terminal_box so it will emit on_context_menu(None) on click
                 // to dismiss the popup.
                 if self.context_menu_popup.is_some() {
-                    terminal_box = terminal_box.context_menu(lingmo::iced::Point::ORIGIN);
+                    terminal_box = terminal_box.context_menu(cosmic::iced::Point::ORIGIN);
                 }
 
                 let use_wayland_popup = {
@@ -3662,7 +3662,7 @@ impl Application for App {
     fn system_theme_update(
         &mut self,
         _keys: &[&'static str],
-        _new_theme: &lingmo::cosmic_theme::Theme,
+        _new_theme: &cosmic::cosmic_theme::Theme,
     ) -> Task<Self::Message> {
         self.update(Message::SystemThemeChange)
     }
@@ -3731,8 +3731,8 @@ impl Application for App {
 #[cfg(feature = "wayland")]
 fn is_wayland() -> bool {
     matches!(
-        lingmo::app::lingmo::windowing_system(),
-        Some(lingmo::app::lingmo::WindowingSystem::Wayland)
+        cosmic::app::cosmic::windowing_system(),
+        Some(cosmic::app::cosmic::WindowingSystem::Wayland)
     )
 }
 
@@ -3743,7 +3743,7 @@ fn is_wayland() -> bool {
 fn pane_divider_color(
     cosmic: &cosmic_theme::Theme,
     transparent: bool,
-) -> lingmo::cosmic_theme::palette::Srgba {
+) -> cosmic::cosmic_theme::palette::Srgba {
     cosmic.background(transparent).divider
 }
 
@@ -3771,7 +3771,7 @@ mod tests {
     fn pane_border_is_drawn_only_when_enabled() {
         // With borders off the pane must render exactly as before, so the
         // stroke has to be zero width rather than a transparent hairline.
-        let theme = lingmo::cosmic_theme::Theme::dark_default();
+        let theme = cosmic::cosmic_theme::Theme::dark_default();
         assert_eq!(pane_border(&theme, true, false).width, 0.0);
         assert!(pane_border(&theme, true, true).width > 0.0);
     }
@@ -3780,8 +3780,8 @@ mod tests {
     fn pane_border_uses_the_divider_color() {
         // The stroke is the only thing marking the pane edge now that nothing
         // is painted behind the grid, so it must match the theme divider.
-        let theme = lingmo::cosmic_theme::Theme::dark_default();
-        let expected = lingmo::iced::Color::from(pane_divider_color(&theme, true));
+        let theme = cosmic::cosmic_theme::Theme::dark_default();
+        let expected = cosmic::iced::Color::from(pane_divider_color(&theme, true));
         assert_eq!(pane_border(&theme, true, true).color, expected);
     }
 
@@ -3790,7 +3790,7 @@ mod tests {
         // The divider is painted as a full-window container behind the pane
         // grid. With blur active it must keep alpha < 1 so the frosted
         // backdrop still shows through instead of a flat opaque fill.
-        let theme = lingmo::cosmic_theme::Theme::dark_default();
+        let theme = cosmic::cosmic_theme::Theme::dark_default();
         let color = pane_divider_color(&theme, true);
         assert!(
             color.alpha < 1.0,
@@ -3803,7 +3803,7 @@ mod tests {
     fn pane_divider_is_opaque_without_blur() {
         // Without blur there is nothing to show through, so the divider keeps
         // the fully opaque background color.
-        let theme = lingmo::cosmic_theme::Theme::dark_default();
+        let theme = cosmic::cosmic_theme::Theme::dark_default();
         let color = pane_divider_color(&theme, false);
         assert!(
             (color.alpha - 1.0).abs() < f32::EPSILON,

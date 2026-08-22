@@ -1,4 +1,4 @@
-use lingmo::{
+use cosmic::{
     Element, Task, Theme, cosmic_theme,
     iced::{Alignment, Length, Padding},
     style,
@@ -59,7 +59,7 @@ impl PasswordManager {
         }
     }
 
-    pub fn update(&mut self, msg: PasswordManagerMessage) -> Task<lingmo::Action<Message>> {
+    pub fn update(&mut self, msg: PasswordManagerMessage) -> Task<cosmic::Action<Message>> {
         match msg {
             PasswordManagerMessage::Error(err) => {
                 log::error!("{err}");
@@ -143,9 +143,9 @@ impl PasswordManager {
         self.expanded_entry = None;
     }
 
-    pub fn fetch_and_paste(&self, identifier: String) -> Task<lingmo::Action<Message>> {
+    pub fn fetch_and_paste(&self, identifier: String) -> Task<cosmic::Action<Message>> {
         if let Some(pane) = self.pane {
-            lingmo::task::future(async move {
+            cosmic::task::future(async move {
                 match store::get_password(identifier.clone()).await {
                     Ok(password) => Message::PasswordPaste(password, pane),
                     Err(err) => Message::PasswordManager(PasswordManagerMessage::Error(format!(
@@ -159,8 +159,8 @@ impl PasswordManager {
         }
     }
 
-    pub fn fetch_and_expand(&mut self, identifier: String) -> Task<lingmo::Action<Message>> {
-        lingmo::task::future(async move {
+    pub fn fetch_and_expand(&mut self, identifier: String) -> Task<cosmic::Action<Message>> {
+        cosmic::task::future(async move {
             match store::get_password(identifier.clone()).await {
                 Ok(password) => {
                     Message::PasswordManager(PasswordManagerMessage::Expand(identifier, password))
@@ -172,8 +172,8 @@ impl PasswordManager {
         })
     }
 
-    pub fn refresh_password_list(&self) -> Task<lingmo::Action<Message>> {
-        lingmo::task::future(async {
+    pub fn refresh_password_list(&self) -> Task<cosmic::Action<Message>> {
+        cosmic::task::future(async {
             match store::fetch_password_list().await {
                 Ok(list) => Message::PasswordManager(PasswordManagerMessage::ListRefreshed(list)),
                 Err(err) => Message::PasswordManager(PasswordManagerMessage::Error(format!(
@@ -183,11 +183,11 @@ impl PasswordManager {
         })
     }
 
-    pub fn delete_password(&mut self, identifier: String) -> Task<lingmo::Action<Message>> {
+    pub fn delete_password(&mut self, identifier: String) -> Task<cosmic::Action<Message>> {
         if self.expanded_entry.as_ref() == Some(&identifier) {
             self.expanded_entry = None;
         }
-        lingmo::task::future(async move {
+        cosmic::task::future(async move {
             if let Err(err) = store::delete_password(identifier.clone()).await {
                 return Message::PasswordManager(PasswordManagerMessage::Error(format!(
                     "Failed to delete password {identifier}: {err}"
@@ -202,7 +202,7 @@ impl PasswordManager {
         })
     }
 
-    pub fn add_or_update_password_entry(&mut self) -> Task<lingmo::Action<Message>> {
+    pub fn add_or_update_password_entry(&mut self) -> Task<cosmic::Action<Message>> {
         if let Some(input_state) = &self.input_state
             && !input_state.input.identifier.is_empty()
         {
@@ -240,7 +240,7 @@ impl PasswordManager {
                 return Task::none();
             }
 
-            lingmo::task::future(async move {
+            cosmic::task::future(async move {
                 if let Err(err) = store::add_password(identifier.clone(), password.clone()).await {
                     Message::PasswordManager(PasswordManagerMessage::Error(format!(
                         "Failed to add password {identifier}: {err}"

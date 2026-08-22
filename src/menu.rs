@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: GPL-3.0-only
 
-use lingmo::iced::Point;
-use lingmo::widget::menu::key_bind::KeyBind;
-use lingmo::widget::menu::{Item as MenuItem, menu_button};
-use lingmo::widget::space;
-use lingmo::{
+use cosmic::iced::Point;
+use cosmic::widget::menu::key_bind::KeyBind;
+use cosmic::widget::menu::{Item as MenuItem, menu_button};
+use cosmic::widget::space;
+use cosmic::{
     Element,
     app::Core,
     iced::core::Border,
@@ -20,8 +20,8 @@ use std::{collections::HashMap, sync::LazyLock};
 
 use crate::{Action, ColorSchemeId, ColorSchemeKind, Config, Message, fl};
 
-static MENU_ID: LazyLock<lingmo::widget::Id> =
-    LazyLock::new(|| lingmo::widget::Id::new("responsive-menu"));
+static MENU_ID: LazyLock<cosmic::widget::Id> =
+    LazyLock::new(|| cosmic::widget::Id::new("responsive-menu"));
 
 #[derive(Debug, Clone)]
 pub struct MenuState {
@@ -44,7 +44,7 @@ pub fn context_menu<'a>(
         }
         String::new()
     };
-    fn key_style(theme: &lingmo::Theme) -> TextStyle {
+    fn key_style(theme: &cosmic::Theme) -> TextStyle {
         let mut color = theme.cosmic().background(theme.transparent).component.on;
         color.alpha *= 0.75;
         TextStyle {
