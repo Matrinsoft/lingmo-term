@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: GPL-3.0-only
 
-use cosmic::iced::Point;
-use cosmic::widget::menu::key_bind::KeyBind;
-use cosmic::widget::menu::{Item as MenuItem, menu_button};
-use cosmic::widget::space;
-use cosmic::{
+use lingmo::iced::Point;
+use lingmo::widget::menu::key_bind::KeyBind;
+use lingmo::widget::menu::{Item as MenuItem, menu_button};
+use lingmo::widget::space;
+use lingmo::{
     Element,
     app::Core,
     iced::core::Border,
@@ -20,8 +20,8 @@ use std::{collections::HashMap, sync::LazyLock};
 
 use crate::{Action, ColorSchemeId, ColorSchemeKind, Config, Message, fl};
 
-static MENU_ID: LazyLock<cosmic::widget::Id> =
-    LazyLock::new(|| cosmic::widget::Id::new("responsive-menu"));
+static MENU_ID: LazyLock<lingmo::widget::Id> =
+    LazyLock::new(|| lingmo::widget::Id::new("responsive-menu"));
 
 #[derive(Debug, Clone)]
 pub struct MenuState {
@@ -44,7 +44,7 @@ pub fn context_menu<'a>(
         }
         String::new()
     };
-    fn key_style(theme: &cosmic::Theme) -> TextStyle {
+    fn key_style(theme: &lingmo::Theme) -> TextStyle {
         let mut color = theme.cosmic().background(theme.transparent).component.on;
         color.alpha *= 0.75;
         TextStyle {
@@ -126,7 +126,7 @@ pub fn context_menu<'a>(
     let content = widget::menu::menu_column::MenuColumn::with_children(rows);
     widget::container(content)
         .padding(1)
-        //TODO: move style to libcosmic
+        //TODO: move style to liblingmo
         .style(|theme| {
             let cosmic = theme.cosmic();
             let component = &cosmic.background(theme.transparent).component;
@@ -175,7 +175,7 @@ pub fn color_scheme_menu<'a>(
 
     widget::container(column)
         .padding(1)
-        //TODO: move style to libcosmic
+        //TODO: move style to liblingmo
         .style(|theme| {
             let cosmic = theme.cosmic();
             let component = &cosmic.background(theme.transparent).component;

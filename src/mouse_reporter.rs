@@ -1,4 +1,4 @@
-use cosmic::{
+use lingmo::{
     iced::mouse::{Event as MouseEvent, ScrollDelta},
     iced::{Event, keyboard::Modifiers, mouse::Button},
 };

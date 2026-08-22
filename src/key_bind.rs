@@ -1,4 +1,4 @@
-use cosmic::widget::menu::key_bind::KeyBind;
+use lingmo::widget::menu::key_bind::KeyBind;
 use std::collections::HashMap;
 
 use crate::Action;

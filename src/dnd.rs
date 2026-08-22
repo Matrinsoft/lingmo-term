@@ -1,4 +1,4 @@
-use cosmic::iced::clipboard::mime::AllowedMimeTypes;
+use lingmo::iced::clipboard::mime::AllowedMimeTypes;
 use std::{borrow::Cow, error::Error, path::PathBuf, str};
 use url::Url;
 
