@@ -1369,7 +1369,7 @@ dependencies = [
 [[package]]
 name = "cosmic-files"
 version = "1.6.0"
-source = "git+https://github.com/Matrinsoft/lingmo-files.git#3d51cee60e787eb144b9949cc036877f899f08be"
+source = "git+https://github.com/Matrinsoft/lingmo-files.git#59db1cff189ceb7e622f58c658f0e45274901c81"
 dependencies = [
  "anyhow",
  "atomic_float",
