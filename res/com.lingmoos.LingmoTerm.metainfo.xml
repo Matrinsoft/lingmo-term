@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.lingmoos.LingmoTerm</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-only</project_license>
+  <project_group>Lingmo</project_group>
+  <developer_name>Matrinsoft</developer_name>
+  <update_contact>jeremy@matrinsoft.com</update_contact>
+  <url type="homepage">https://github.com/Matrinsoft/cosmic-term</url>
+  <url type="bugtracker">https://github.com/Matrinsoft/cosmic-term</url>
+  <name>Lingmo Terminal</name>
+  <summary>Terminal emulator for the Lingmo desktop</summary>
+  <description>
+    <p>Terminal emulator for the Lingmo desktop</p>
+    <p xml:lang="ar">محاكي طرفي لسطح مكتب Lingmo</p>
+    <p xml:lang="cs">Emulátor terminálu pro pracovní prostředí Lingmo</p>
+    <p xml:lang="pl">Emulator terminala dla pulpitu Lingmo</p>
+    <p xml:lang="hu">Terminálemulátor a Lingmo asztali környezethez</p>
+    <p xml:lang="pt_BR">Emulador de terminal do desktop Lingmo</p>
+    <p xml:lang="pt">Emulador de terminal do desktop Lingmo</p>
+    <p xml:lang="sk">Emulátor terminálu pre pracovné prostredie Lingmo</p>
+    <p xml:lang="es">Emulador de terminal de escritorio Lingmo</p>
+    <p xml:lang="it">Emulatore di terminale di Lingmo</p>
+    <p xml:lang="sv">Terminalemulator för skrivbordsmiljön Lingmo</p>
+  </description>
+  <keywords>
+    <keyword>Command</keyword>
+    <keyword>Shell</keyword>
+    <keyword>Terminal</keyword>
+    <keyword>CLI</keyword>
+  </keywords>
+  <launchable type="desktop-id">com.lingmoos.LingmoTerm.desktop</launchable>
+  <icon type="remote" height="256" width="256">
+    https://raw.githubusercontent.com/Matrinsoft/cosmic-term/master/res/icons/hicolor/256x256/apps/com.lingmoos.LingmoTerm.svg</icon>
+  <provides>
+    <id>com.lingmoos.LingmoApplication</id>
+    <binaries>
+      <binary>cosmic-term</binary>
+    </binaries>
+  </provides>
+</component>
