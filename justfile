@@ -1,5 +1,5 @@
 name := 'cosmic-term'
-export APPID := 'com.system76.CosmicTerm'
+export APPID := 'com.lingmoos.LingmoTerm'
 
 rootdir := ''
 prefix := '/usr'
