@@ -1712,7 +1712,7 @@ impl Application for App {
     type Message = Message;
 
     /// The unique application ID to supply to the window manager.
-    const APP_ID: &'static str = "com.system76.CosmicTerm";
+    const APP_ID: &'static str = "com.lingmoos.LingmoTerm";
 
     fn core(&self) -> &Core {
         &self.core
